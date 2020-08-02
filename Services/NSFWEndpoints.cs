@@ -6,7 +6,7 @@ using Nekos.Net.Responses;
 
 namespace hikari.net.Services
 {
-    class NSFWEndpoints
+    public class NSFWEndpoints
     {
         private readonly HttpClient _http;
 

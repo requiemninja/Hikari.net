@@ -10,7 +10,8 @@ namespace hikari.net.Modules
 {
     public class PublicModule : ModuleBase<SocketCommandContext>
     {
-        public PictureService PictureService { get; set; }
+        public SFWEndpoints SFWEndpoints { get; set; }
+        public NSFWEndpoints NSFWEndpoints { get; set; }
 
         [Command("ping")]
         [Alias("pong", "hello")]
@@ -32,7 +33,7 @@ namespace hikari.net.Modules
         [Command("sfw cuddle")]
         public async Task SFWCuddleAsync()
         {
-            var stream = await PictureService.GetSFWCuddleAsync();
+            var stream = await SFWEndpoints.GetSFWCuddleAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwcuddle.png");
         }
@@ -40,7 +41,7 @@ namespace hikari.net.Modules
         [Command("sfw tickle")]
         public async Task SFWTickleAsync()
         {
-            var stream = await PictureService.GetSFWTickleAsync();
+            var stream = await SFWEndpoints.GetSFWTickleAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwtickle.png");
         }
@@ -48,7 +49,7 @@ namespace hikari.net.Modules
         [Command("sfw slap")]
         public async Task SFWSlapAsync()
         {
-            var stream = await PictureService.GetSFWSlapAsync();
+            var stream = await SFWEndpoints.GetSFWSlapAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwslap.png");
         }
@@ -56,7 +57,7 @@ namespace hikari.net.Modules
         [Command("sfw poke")]
         public async Task SFWPokeAsync()
         {
-            var stream = await PictureService.GetSFWPokeAsync();
+            var stream = await SFWEndpoints.GetSFWPokeAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwpoke.png");
         }
@@ -64,7 +65,7 @@ namespace hikari.net.Modules
         [Command("sfw pat")]
         public async Task SFWPatAsync()
         {
-            var stream = await PictureService.GetSFWPatAsync();
+            var stream = await SFWEndpoints.GetSFWPatAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwpat.png");
         }
@@ -72,7 +73,7 @@ namespace hikari.net.Modules
         [Command("sfw neko")]
         public async Task SFWNekoAsync()
         {
-            var stream = await PictureService.GetSFWNekoAsync();
+            var stream = await SFWEndpoints.GetSFWNekoAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwneko.png");
         }
@@ -80,7 +81,7 @@ namespace hikari.net.Modules
         [Command("sfw meow")]
         public async Task SFWMeowAsync()
         {
-            var stream = await PictureService.GetSFWMeowAsync();
+            var stream = await SFWEndpoints.GetSFWMeowAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwmeow.png");
         }
@@ -88,7 +89,7 @@ namespace hikari.net.Modules
         [Command("sfw lizard")]
         public async Task SFWLizardAsync()
         {
-            var stream = await PictureService.GetSFWLizardAsync();
+            var stream = await SFWEndpoints.GetSFWLizardAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwlizard.png");
         }
@@ -96,7 +97,7 @@ namespace hikari.net.Modules
         [Command("sfw kiss")]
         public async Task SFWKissAsync()
         {
-            var stream = await PictureService.GetSFWKissAsync();
+            var stream = await SFWEndpoints.GetSFWKissAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwkiss.png");
         }
@@ -104,7 +105,7 @@ namespace hikari.net.Modules
         [Command("sfw hug")]
         public async Task SFWHugAsync()
         {
-            var stream = await PictureService.GetSFWHugAsync();
+            var stream = await SFWEndpoints.GetSFWHugAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwhug.png");
         }
@@ -112,7 +113,7 @@ namespace hikari.net.Modules
         [Command("sfw foxgirl")]
         public async Task SFWFoxGirlAsync()
         {
-            var stream = await PictureService.GetSFWFoxGirlAsync();
+            var stream = await SFWEndpoints.GetSFWFoxGirlAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwfoxgirl.png");
         }
@@ -120,7 +121,7 @@ namespace hikari.net.Modules
         [Command("sfw feed")]
         public async Task SFWFeedAsync()
         {
-            var stream = await PictureService.GetSFWFeedAsync();
+            var stream = await SFWEndpoints.GetSFWFeedAsync();
             stream.Seek(0, SeekOrigin.Begin);
             await Context.Channel.SendFileAsync(stream, "sfwfeed.png");
         }
