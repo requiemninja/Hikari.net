@@ -54,7 +54,8 @@ namespace hikari.net
                 .AddSingleton<CommandService>()
                 .AddSingleton<CommandHandlingService>()
                 .AddSingleton<HttpClient>()
-                .AddSingleton<PictureService>()
+                .AddSingleton<SFWEndpoints>()
+                .AddSingleton<NSFWEndpoints>()
                 .BuildServiceProvider();
         }
     }
