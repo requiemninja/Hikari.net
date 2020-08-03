@@ -24,10 +24,89 @@ namespace hikari.net.Modules
             await Context.Channel.SendMessageAsync("Pinging <@&424793735151353869> for assistance!");
         }
 
-        [Command("commands")]
-        public async Task CommandsList()
+        //[Command("commands")]
+        //public async Task CommandsList()
+        //{
+        //    await Context.Channel.SendMessageAsync("Commands list placeholder");
+        //}
+
+        [Command("help")]
+        [Alias("commands")]
+        public async Task HelpCommand()
         {
-            await Context.Channel.SendMessageAsync("Commands list placeholder");
+            EmbedBuilder help = new EmbedBuilder();
+
+            help.WithTitle("Current commands are:");
+            help.AddField("!help/!commands", "Display this help", false);
+            help.AddField("!admin", "Pings all admins to provide assistance", false);
+            help.AddField("!sfw <command>", "Posts SFW Image - Use '!help sfw' for more info", false);
+            help.AddField("!nsfw <command>", "Posts NSFW Image - Use '!help nsfw' for more info", false);
+
+            await Context.Channel.SendMessageAsync("", false, help.Build());
+        }
+
+        [Command("help sfw")]
+        public async Task SFWHelpCommand()
+        {
+            EmbedBuilder sfwhelp = new EmbedBuilder();
+
+            sfwhelp.WithTitle("SFW Commands are:");
+            sfwhelp.AddField("cuddle", "cuddling", false);
+            sfwhelp.AddField("tickle", "tickling", false);
+            sfwhelp.AddField("slap", "how can he slap", false);
+            sfwhelp.AddField("poke", "MY EYE", false);
+            sfwhelp.AddField("pat", "headpats for everyone", false);
+            sfwhelp.AddField("neko", "nyaa!~~", false);
+            sfwhelp.AddField("meow", "miau", false);
+            sfwhelp.AddField("lizard", "hissy bois and gals", false);
+            sfwhelp.AddField("kiss", "smooch", false);
+            sfwhelp.AddField("hug", "cure to war", false);
+            sfwhelp.AddField("foxgirl", "kitsune gals", false);
+            sfwhelp.AddField("feed", "noms", false);
+
+            await Context.Channel.SendMessageAsync("", false, sfwhelp.Build());
+        }
+
+        [Command("help nsfw")]
+        public async Task NSFWHelpCommand()
+        {
+            EmbedBuilder nsfwhelp = new EmbedBuilder();
+
+            nsfwhelp.WithTitle("NSFW Commands are:");
+            nsfwhelp.AddField("randomgif\r\n" +
+                "pussy\r\n" +
+                "lewd\r\n" +
+                "lesbian\r\n" +
+                "kuni\r\n" +
+                "cum\r\n" +
+                "classic\r\n" +
+                "boobs\r\n" +
+                "bj\r\n" +
+                "anal\r\n" +
+                "yuri\r\n" +
+                "trap\r\n" +
+                "tits\r\n" +
+                "sologirlgif\r\n" +
+                "sologirl\r\n" +
+                "wank\r\n" +
+                "pussyjpg\r\n" +
+                "keta\r\n" +
+                "hololewd\r\n" +
+                "holoero\r\n" +
+                "hentai\r\n" +
+                "futanari\r\n" +
+                "femdom\r\n" +
+                "feetgif\r\n" +
+                "erofeet\r\n" +
+                "ero\r\n" +
+                "erok\r\n" +
+                "erokemo\r\n" +
+                "eron\r\n" +
+                "eroyuri\r\n" +
+                "cumjpg\r\n" +
+                "blowjob\r\n", "End of list", false);
+
+            await Context.Channel.SendMessageAsync("", false, nsfwhelp.Build());
         }
 
         #region SFW
