@@ -5,6 +5,7 @@ using Discord.Commands;
 using hikari.net.Services;
 using System.Linq;
 using System;
+using LiteDB;
 
 namespace hikari.net.Modules
 {
@@ -24,11 +25,20 @@ namespace hikari.net.Modules
             await Context.Channel.SendMessageAsync("Pinging <@&424793735151353869> for assistance!");
         }
 
-        //[Command("commands")]
-        //public async Task CommandsList()
-        //{
-        //    await Context.Channel.SendMessageAsync("Commands list placeholder");
-        //}
+        [Command("db-test")]
+        public async Task DBTest()
+        {
+            using (var db = new LiteDatabase(@"..\hikari.net.db"))
+            {
+                var collection = db.GetCollection<Quotes>("quotes");
+                var quotes = new Quotes
+                {
+                    User = Context.Client.CurrentUser.Username,
+                    Quote = "Test"
+                };
+                collection.Insert(quotes);
+            }
+        }
 
         [Command("help")]
         [Alias("commands")]
@@ -478,6 +488,13 @@ namespace hikari.net.Modules
             await user.Guild.AddBanAsync(user, reason: reason);
             await ReplyAsync($"{user} has been banned for {reason}.");
             //await ReplyAsync(user + " has been banned for " + reason + );
+        }
+
+        public class Quotes
+        {
+            public int Id { get; set; }
+            public string User { get; set; }
+            public string Quote{ get; set; }
         }
     }
 }
