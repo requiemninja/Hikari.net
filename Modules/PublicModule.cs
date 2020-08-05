@@ -6,7 +6,6 @@ using hikari.net.Services;
 using System.Linq;
 using System;
 using LiteDB;
-using System.Collections.Generic;
 
 namespace hikari.net.Modules
 {
