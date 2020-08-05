@@ -6,6 +6,7 @@ using hikari.net.Services;
 using System.Linq;
 using System;
 using LiteDB;
+using System.Collections.Generic;
 
 namespace hikari.net.Modules
 {
@@ -25,18 +26,39 @@ namespace hikari.net.Modules
             await Context.Channel.SendMessageAsync("Pinging <@&424793735151353869> for assistance!");
         }
 
-        [Command("db-test")]
-        public async Task DBTest()
+        [Command("quote add")]
+        public async Task QuoteAdd([Remainder] string quoteText)
         {
+            EmbedBuilder quoteAdd = new EmbedBuilder();
+            using var db = new LiteDatabase(@"..\hikari.net.db");
+            var collection = db.GetCollection<Quotes>("quotes");
+            var quotes = new Quotes
+            {
+                User = Context.Message.Author.Username,
+                Quote = quoteText
+            };
+            quoteAdd.WithTitle("Quote added");
+            quoteAdd.AddField(quoteText, Context.Message.Author.Username, false);
+            collection.Insert(quotes);
+            await Context.Channel.SendMessageAsync("", false, quoteAdd.Build());
+        }
+
+        [Command("quote search")]
+        public async Task QuoteSearch([Remainder] string quoteText)
+        {
+
             using (var db = new LiteDatabase(@"..\hikari.net.db"))
             {
+                EmbedBuilder quoteEmbed = new EmbedBuilder();
+                var random = new Random();
                 var collection = db.GetCollection<Quotes>("quotes");
-                var quotes = new Quotes
-                {
-                    User = Context.Client.CurrentUser.Username,
-                    Quote = "Test"
-                };
-                collection.Insert(quotes);
+                collection.EnsureIndex(n => n.Quote);
+                var results = collection.Find(n => n.Quote.Contains(quoteText));
+                var resultsArray = results.ToArray();
+                var randomIndex = random.Next(0, resultsArray.Length);
+                quoteEmbed.WithTitle("Quote");
+                quoteEmbed.AddField(resultsArray[randomIndex].Quote, "Added by " + resultsArray[randomIndex].User);
+                await Context.Channel.SendMessageAsync("", false, quoteEmbed.Build());
             }
         }
 
