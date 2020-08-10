@@ -25,6 +25,15 @@ namespace hikari.net.Modules
             await Context.Channel.SendMessageAsync("Pinging <@&424793735151353869> for assistance!");
         }
 
+        [Command("dice")]
+        [Alias("roll", "d")]
+        public async Task DiceRoll([Remainder] int diceNumber)
+        {
+            var random = new Random();
+            int diceType = random.Next(1, diceNumber);
+            await Context.Channel.SendMessageAsync($"{Context.Message.Author.Username} has rolled a {diceType}");
+        }
+
         [Command("quote add")]
         public async Task QuoteAdd([Remainder] string quoteText)
         {
@@ -62,7 +71,7 @@ namespace hikari.net.Modules
         }
 
         [Command("help")]
-        [Alias("commands")]
+        [Alias("commands", "help commands")]
         public async Task HelpCommand()
         {
             EmbedBuilder help = new EmbedBuilder();
@@ -70,6 +79,9 @@ namespace hikari.net.Modules
             help.WithTitle("Current commands are:");
             help.AddField("!help/!commands", "Display this help", false);
             help.AddField("!admin", "Pings all admins to provide assistance", false);
+            help.AddField("!dice/!roll/!d <number>", "Rolls a dice");
+            help.AddField("!quote add <Quote>", "Adds a quote");
+            help.AddField("!quote search <Term>", "Searches for a quote using the term");
             help.AddField("!sfw <command>", "Posts SFW Image - Use '!help sfw' for more info", false);
             help.AddField("!nsfw <command>", "Posts NSFW Image - Use '!help nsfw' for more info", false);
 
