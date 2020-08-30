@@ -6,6 +6,10 @@ using hikari.net.Services;
 using System.Linq;
 using System;
 using LiteDB;
+using IniParser;
+using IniParser.Model;
+using MingweiSamuel.Camille;
+using MingweiSamuel.Camille.Enums;
 
 namespace hikari.net.Modules
 {
@@ -70,6 +74,75 @@ namespace hikari.net.Modules
             }
         }
 
+        [Command("lolrank")]
+        public async Task LolRank([Remainder] string summonerInfo)
+        {
+            var configLoad = new FileIniDataParser();
+            IniData configData = configLoad.ReadFile("config.ini");
+            string riotApiToken = configData["config"]["riot"];
+
+            var riotApi = RiotApi.NewInstance(riotApiToken);
+            var summonerRegion = Region.NA;
+            var summonerName = summonerInfo.Replace("NA", "").Replace("EUNE", "").Replace("EUW", "")
+                .Replace("na", "").Replace("euw", "").Replace("eune", "");
+
+            if (summonerInfo.Contains("NA", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.NA;
+            }
+            if (summonerInfo.Contains("EUW", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.EUW;
+            }
+            if (summonerInfo.Contains("EUNE", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.EUNE;
+            }
+            if (summonerInfo.Contains("SEA", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.Sea;
+            }
+            if (summonerInfo.Contains("LAN", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.LAN;
+            }
+            if (summonerInfo.Contains("LAS", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.LAS;
+            }
+            if (summonerInfo.Contains("KR", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.KR;
+            }
+            if (summonerInfo.Contains("OCE", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.OCE;
+            }
+            if (summonerInfo.Contains("BR", StringComparison.OrdinalIgnoreCase))
+            {
+                summonerRegion = Region.BR;
+            }
+
+            var summonerData = await riotApi.SummonerV4.GetBySummonerNameAsync(summonerRegion, summonerName);
+            if (null == summonerData)
+            {
+                await Context.Channel.SendMessageAsync($"Summoner '{summonerName}' not found.");
+                return;
+            }
+
+            var summonerRank = riotApi.LeagueV4.GetLeagueEntriesForSummoner(summonerRegion, summonerData.Id);
+            var soloQueueRank = summonerRank.FirstOrDefault(r => r.QueueType == "RANKED_SOLO_5x5");
+
+            if (soloQueueRank == null)
+            {
+                await Context.Channel.SendMessageAsync($"{summonerData.Name} - Level: {summonerData.SummonerLevel} - is unranked");
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync($"{summonerData.Name} - Level: {summonerData.SummonerLevel} - {soloQueueRank.Tier} {soloQueueRank.Rank}");
+            }
+        }
+
         [Command("help")]
         [Alias("commands", "help commands")]
         public async Task HelpCommand()
@@ -82,6 +155,7 @@ namespace hikari.net.Modules
             help.AddField("!dice/!roll/!d <number>", "Rolls a dice");
             help.AddField("!quote add <Quote>", "Adds a quote");
             help.AddField("!quote search <Term>", "Searches for a quote using the term");
+            help.AddField("!lolrank <summonername> <region>", "Displays rank and level of summoner");
             help.AddField("!sfw <command>", "Posts SFW Image - Use '!help sfw' for more info", false);
             help.AddField("!nsfw <command>", "Posts NSFW Image - Use '!help nsfw' for more info", false);
 
